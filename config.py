@@ -5,6 +5,7 @@ load_dotenv()
 #  Project identity 
 PROJECT_NAME        = "PowerPulse AI"
 TEAM_NAME           = "TRANSFORMERS"
+MEMBER_1_NAME = "Hreet Bansal"
 VERSION             = "1.0.0"
 #  Data simulation parameters 
 NUM_TRANSFORMERS    = 50          # simulated transformer units
