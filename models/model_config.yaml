@@ -1,0 +1,4 @@
+forecast_horizon_h: 72
+forecast_freq: H
+seasonality_mode: multiplicative
+changepoint_prior_scale: 0.05
