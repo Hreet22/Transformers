@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerPulse AI - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+
+<body>
+    <div id="loading-screen">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-circle"></div>
+            <div class="loader-circle"></div>
+        </div>
+        <h2 class="loading-text">Initializing AI Core...</h2>
+    </div>
+    <div class="bg-accents">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-bolt"></i>
+            <span>PowerPulse AI</span>
+        </div>
+        <div class="nav-links">
+            <a href="#overview" class="nav-link active">Dashboard</a>
+            <a href="#analytics" class="nav-link">Analytics</a>
+            <a href="#reports" class="nav-link">Reports</a>
+            <a href="#settings" class="nav-link">Settings</a>
+        </div>
+        <div class="user-profile">
+            <div class="avatar"></div>
+            <span>Admin</span>
+        </div>
+    </nav>
+
+    <main class="dashboard">
+        <header class="dashboard-header" id="overview">
+            <h1>Overview</h1>
+            <div class="date-picker">Today, 11 May 2026 <i class="fas fa-calendar"></i></div>
+        </header>
+
+        <section class="cards-section">
+            <div class="card glass">
+                <div class="card-icon"><i class="fas fa-network-wired"></i></div>
+                <div class="card-content">
+                    <h3>Active Transformers</h3>
+                    <p class="value" id="metric-transformers">1,248</p>
+                    <span class="trend positive"><i class="fas fa-check-circle"></i> <span
+                            id="metric-transformers-trend">99.2% Online</span></span>
+                </div>
+            </div>
+            <div class="card glass" id="card-risk">
+                <div class="card-icon warning-icon" id="icon-risk"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="card-content">
+                    <h3>High Risk Units</h3>
+                    <p class="value warning-text" id="metric-risk">14</p>
+                    <span class="trend negative"><i class="fas fa-arrow-up"></i> <span id="metric-risk-trend">3 since
+                            last scan</span></span>
+                </div>
+            </div>
+            <div class="card glass">
+                <div class="card-icon"><i class="fas fa-bolt"></i></div>
+                <div class="card-content">
+                    <h3>Average Grid Load</h3>
+                    <p class="value" id="metric-load">76.4%</p>
+                    <span class="trend stable" id="trend-load"><i class="fas fa-minus"></i> Optimal</span>
+                </div>
+            </div>
+            <div class="card glass">
+                <div class="card-icon"><i class="fas fa-temperature-high"></i></div>
+                <div class="card-content">
+                    <h3>System Temperature</h3>
+                    <p class="value" id="metric-temp">42°C</p>
+                    <span class="trend positive" id="trend-temp"><i class="fas fa-arrow-down"></i> 1.5°C</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="forecast-section glass" id="analytics" style="margin-bottom: 1.5rem; padding: 1.5rem;">
+            <div class="section-header">
+                <h2>72-Hour AI Load Forecast</h2>
+                <div class="controls">
+                    <span class="badge"
+                        style="background: rgba(16, 185, 129, 0.2); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.5); font-weight: 500; letter-spacing: 0.5px;"><i
+                            class="fas fa-robot" style="margin-right: 0.4rem;"></i> AI Active</span>
+                </div>
+            </div>
+            <div class="chart-container" style="height: 300px; width: 100%; position: relative;">
+                <canvas id="forecastChart"></canvas>
+            </div>
+        </section>
+
+        <div class="main-content">
+            <div class="left-content">
+                <section class="chart-section glass">
+                    <div class="section-header">
+                        <h2>Power Distribution Analytics</h2>
+                        <div class="controls">
+                            <button class="btn active">Day</button>
+                            <button class="btn">Week</button>
+                            <button class="btn">Month</button>
+                        </div>
+                    </div>
+                    <div class="chart-container" id="powerChart">
+                        <canvas id="canvasChart"></canvas>
+                    </div>
+                </section>
+
+                <section class="ai-insights-section glass">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain" style="color: var(--primary-color); margin-right: 0.5rem;"></i> AI
+                            Insights & Assistant</h2>
+                        <div class="controls">
+                            <span class="badge" id="aiStatusBadge"
+                                style="background: rgba(56, 189, 248, 0.2); color: var(--primary-color); border: 1px solid rgba(56, 189, 248, 0.5); font-weight: 500; letter-spacing: 0.5px;"><i
+                                    class="fas fa-sync-alt fa-spin" style="margin-right: 0.4rem;"></i> Analyzing</span>
+                        </div>
+                    </div>
+                    <div class="ai-terminal" id="aiTerminal">
+                        <!-- Typing effect will populate here -->
+                    </div>
+                </section>
+            </div>
+
+            <div class="side-content">
+                <section class="map-section glass">
+                    <h2>Grid Map</h2>
+                    <div class="map-container" id="gridMap">
+                        <!-- Leaflet Map Mount Point -->
+                    </div>
+                </section>
+
+                <section class="alerts-section glass">
+                    <div class="section-header">
+                        <h2>AI Alerts</h2>
+                        <span class="badge" id="alertBadge">0 New</span>
+                    </div>
+                    <ul class="alerts-list" id="liveAlertsFeed">
+                        <!-- Dynamically generated by JS -->
+                    </ul>
+                </section>
+            </div>
+        </div>
+
+        <!-- New Reports Section -->
+        <section class="reports-section glass" id="reports">
+            <div class="section-header">
+                <h2><i class="fas fa-file-alt"></i> System Reports</h2>
+            </div>
+            <div class="reports-grid">
+                <div class="report-card glass-panel">
+                    <i class="fas fa-file-pdf report-icon" style="color: var(--danger)"></i>
+                    <div class="report-info">
+                        <h4>Daily Grid Summary</h4>
+                        <p>PDF • 2.4 MB</p>
+                    </div>
+                    <button class="btn btn-download"><i class="fas fa-download"></i></button>
+                </div>
+                <div class="report-card glass-panel">
+                    <i class="fas fa-file-csv report-icon" style="color: var(--success)"></i>
+                    <div class="report-info">
+                        <h4>Transformer Statistics</h4>
+                        <p>CSV • 1.1 MB</p>
+                    </div>
+                    <button class="btn btn-download"><i class="fas fa-download"></i></button>
+                </div>
+                <div class="report-card glass-panel">
+                    <i class="fas fa-file-pdf report-icon" style="color: var(--warning)"></i>
+                    <div class="report-info">
+                        <h4>Alerts History Log</h4>
+                        <p>PDF • 3.8 MB</p>
+                    </div>
+                    <button class="btn btn-download"><i class="fas fa-download"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Settings Section -->
+        <section class="settings-section glass" id="settings">
+            <div class="section-header">
+                <h2><i class="fas fa-cog"></i> Control Panel</h2>
+            </div>
+            <div class="settings-grid">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>Neon Glass Theme</h4>
+                        <p>Switch to lighter aesthetic mode</p>
+                    </div>
+                    <label class="theme-switch">
+                        <input type="checkbox" id="themeToggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>Refresh Interval</h4>
+                        <p>Current: 3 seconds</p>
+                    </div>
+                    <input type="range" min="1" max="10" value="3" class="range-slider">
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>AI Alert Sensitivity</h4>
+                        <p>Current: Medium</p>
+                    </div>
+                    <input type="range" min="1" max="3" value="2" class="range-slider">
+                </div>
+                <div class="setting-item status-panel">
+                    <i class="fas fa-server"></i>
+                    <div class="status-info">
+                        <h4>Core Servers: Online</h4>
+                        <p>Latency: 12ms | Uptime: 99.9%</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Chart.js for charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
